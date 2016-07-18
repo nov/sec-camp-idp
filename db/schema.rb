@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20160208063407) do
 
   create_table "access_tokens", force: :cascade do |t|
-    t.integer  "authorization_id", null: false
+    t.integer  "authorization_id"
     t.string   "token",            null: false
     t.datetime "expires_at",       null: false
     t.datetime "created_at",       null: false
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20160208063407) do
   end
 
   create_table "authorizations", force: :cascade do |t|
-    t.integer  "account_id", null: false
-    t.integer  "client_id",  null: false
+    t.integer  "account_id"
+    t.integer  "client_id"
     t.string   "code",       null: false
     t.string   "nonce"
     t.datetime "expires_at", null: false
@@ -53,17 +53,17 @@ ActiveRecord::Schema.define(version: 20160208063407) do
   end
 
   create_table "clients", force: :cascade do |t|
-    t.string   "identifier",    null: false
-    t.string   "secret",        null: false
-    t.string   "name",          null: false
-    t.text     "redirect_uris", null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "identifier",   null: false
+    t.string   "secret",       null: false
+    t.string   "name",         null: false
+    t.string   "redirect_uri", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.index ["identifier"], name: "index_clients_on_identifier", unique: true
   end
 
   create_table "id_tokens", force: :cascade do |t|
-    t.integer  "authorization_id", null: false
+    t.integer  "authorization_id"
     t.string   "nonce"
     t.datetime "expires_at",       null: false
     t.datetime "created_at",       null: false

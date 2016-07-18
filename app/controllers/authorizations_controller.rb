@@ -2,7 +2,6 @@ class AuthorizationsController < ApplicationController
   include Concerns::ConnectEndpoint
 
   before_action :require_oauth_request
-  before_action :require_response_type_code
   before_action :require_client
   before_action :require_authentication
 
@@ -16,7 +15,14 @@ class AuthorizationsController < ApplicationController
         nonce: oauth_request.nonce
       )
       authorization.scopes << requested_scopes
-      oauth_response.code = authorization.code
+      case oauth_request.response_type
+      when :code
+        oauth_response.code = authorization.code
+      when :token
+        oauth_response.access_token = authorization.access_token(:via_implicit).to_bearer_token
+      when :id_token
+        oauth_response.id_token = authorization.id_token.to_jwt
+      end
       oauth_response.redirect_uri = @redirect_uri
       oauth_response.approve!
       redirect_to oauth_response.location
@@ -28,7 +34,9 @@ class AuthorizationsController < ApplicationController
   private
 
   def require_client
+    logger.info "require_client: #{oauth_request.client_id}"
     @client = Client.find_by(identifier: oauth_request.client_id) or oauth_request.invalid_request!
+    logger.info "require_client: #{@client}"
     @redirect_uri = oauth_request.verify_redirect_uri! @client.redirect_uri
   end
 
@@ -36,10 +44,4 @@ class AuthorizationsController < ApplicationController
     @requested_scopes ||= Scope.where(name: oauth_request.scope.split)
   end
   helper_method :requested_scopes
-
-  def require_response_type_code
-    unless oauth_request.response_type == :code
-      oauth_request.unsupported_response_type!
-    end
-  end
 end

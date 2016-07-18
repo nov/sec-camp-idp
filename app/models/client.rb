@@ -1,11 +1,18 @@
 class Client < ApplicationRecord
-  serialize :redirect_uris, JSON
   has_many :authorizations
 
-  validates :identifier,    presence: true, uniqueness: true
-  validates :secret,        presence: true
-  validates :redirect_uris, presence: true
+  validates :identifier,   presence: true, uniqueness: true
+  validates :secret,       presence: true
+  validates :name,         presence: true
+  validates :redirect_uri, presence: true, url: true
   before_validation :setup, on: :create
+
+  def as_json(options = {})
+    {
+      client_id: identifier,
+      client_secret: secret
+    }
+  end
 
   private
 

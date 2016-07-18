@@ -1,6 +1,11 @@
 class ClientsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def create
-    client = Clients.new params[:client]
+    client = Client.new(
+      name: params[:client_name],
+      redirect_uri: params[:redirect_uris].try(:first)
+    )
     if client.save
       render json: client
     else

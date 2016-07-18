@@ -16,12 +16,12 @@ class Authorization < ApplicationRecord
     self.save!
   end
 
-  def access_token
-    super || expire! && generate_access_token!
+  def access_token(via_implicit = false)
+    (via_implicit || expire!) && generate_access_token!
   end
 
   def id_token
-    super || generate_id_token!
+    generate_id_token!
   end
 
   private

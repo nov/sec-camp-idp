@@ -42,7 +42,7 @@ class IdToken < ApplicationRecord
 
     def config
       {
-        issuer: 'http://op2.dev',
+        issuer: 'http://sec-idp.dev',
         jwk_set: JSON::JWK::Set.new(public_jwk)
       }
     end

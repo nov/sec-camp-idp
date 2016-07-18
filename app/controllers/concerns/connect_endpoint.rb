@@ -23,7 +23,7 @@ module Concerns
       if e.redirect?
         raise e # NOTE: rack middleware should handle this error.
       else
-        render text: e.message, status: e.status
+        render plain: e.message, status: e.status
       end
     end
 
