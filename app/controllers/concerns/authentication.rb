@@ -49,14 +49,6 @@ module Concerns
       raise AnonymousAccessRequired.new if authenticated?
     end
 
-    def optional_authentication
-      if session[:current_account]
-        authenticate Account.find_by_id(session[:current_account])
-      end
-    rescue ActiveRecord::RecordNotFound
-      unauthenticate!
-    end
-
     def require_access_token
       unless current_token
         raise Rack::OAuth2::Server::Resource::Bearer::Unauthorized.new
