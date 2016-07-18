@@ -2,6 +2,8 @@ class Account < ApplicationRecord
   has_many :authorizations
 
   validates :identifier, presence: true, uniqueness: true
+  validates :email,      presence: true, uniqueness: true
+  validates :name,       presence: true
   before_validation :setup, on: :create
 
   def to_response_object(access_token)
@@ -32,5 +34,14 @@ class Account < ApplicationRecord
 
   def setup
     self.identifier = SecureRandom.hex 16
+  end
+
+  class << self
+    def authenticate!(params = {})
+      account = find_or_initialize_by(email: params[:email])
+      account.name ||= params[:name]
+      account.save!
+      account
+    end
   end
 end

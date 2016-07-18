@@ -1,0 +1,8 @@
+<header>
+  <h2>Please Login</h2>
+</header>
+<%= form_tag session_path do %>
+  <p><%= email_field_tag :email, params[:email], placeholder: :email %></p>
+  <p><%= text_field_tag :name, params[:name], placeholder: :name %></p>
+  <p><%= submit_tag :login %></p>
+<% end %>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ConnectOp</title>
+    <title>OpenID Connect IdP for Security Camp 2016</title>
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
 
@@ -10,6 +10,19 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div id="wrapper">
+      <h1>IdP for SecCamp 2016</h1>
+      <section id="main">
+        <%= yield %>
+      </section>
+      <footer>
+        <% if authenticated? %>
+          <%= form_tag session_path, method: :delete do %>
+            <p><%= submit_tag :logout %></p>
+          <% end %>
+        <% end %>
+        <small>&copy; Nov</small>
+      </footer>
+    </div>
   </body>
 </html>

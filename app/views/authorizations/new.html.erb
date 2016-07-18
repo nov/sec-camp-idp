@@ -1,15 +1,14 @@
-<article>
+<header>
   <h2>Authorization Request by <%= @client.name %></h2>
-  <%= form_tag authorizations_path do %>
-    <ul>
-      <% requested_scopes.each do |scope| %>
-        <li><%= scope.name %></li>
-      <% end %>
-    </ul>
-    <% [:client_id, :response_type, :redirect_uri, :scope, :state, :nonce].each do |key| %>
-      <%= hidden_field_tag key, oauth_request.send(key) %>
+</header>
+<%= form_tag authorizations_path do %>
+  <ul>
+    <% requested_scopes.each do |scope| %>
+      <li><%= scope.name %></li>
     <% end %>
-    <p><%= submit_tag :deny %></p>
-    <p><%= submit_tag :approve %></p>
+  </ul>
+  <% [:client_id, :response_type, :redirect_uri, :scope, :state, :nonce].each do |key| %>
+    <%= hidden_field_tag key, oauth_request.send(key) %>
   <% end %>
-</article>
+  <p><%= submit_tag :deny %>&nbsp;<%= submit_tag :approve %></p>
+<% end %>

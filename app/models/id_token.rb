@@ -12,7 +12,8 @@ class IdToken < ApplicationRecord
       aud: client.identifier,
       nonce: nonce,
       exp: expires_at.to_i,
-      iat: created_at.to_i
+      iat: created_at.to_i,
+      auth_time: account.last_logged_in_at.to_i
     )
   end
 

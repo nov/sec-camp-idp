@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :authorizations, only: [:new, :create]
   resources :clients, only: :create
   resource :user_info, only: :show
+  resource :session, only: [:show, :new, :create, :destroy]
 
   get '.well-known/:id', to: 'discovery#show'
   post 'tokens', to: proc { |env| TokenEndpoint.new.call(env) }
