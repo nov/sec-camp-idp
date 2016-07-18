@@ -2,7 +2,7 @@ class Account < ApplicationRecord
   has_many :authorizations
 
   validates :identifier, presence: true, uniqueness: true
-  validates :email,      presence: true, uniqueness: true
+  validates :email,      presence: true, uniqueness: true, email: true
   validates :name,       presence: true
   before_validation :setup, on: :create
 
@@ -12,10 +12,10 @@ class Account < ApplicationRecord
       userinfo.subject = identifier
     end
     if access_token.scopes.include? Scope::PROFILE
-      userinfo.name = 'Fake Account'
+      userinfo.name = name
     end
     if access_token.scopes.include? Scope::EMAIL
-      userinfo.email = 'fake@example.com'
+      userinfo.email = email
       userinfo.email_verified = false
     end
     if access_token.scopes.include? Scope::ADDRESS

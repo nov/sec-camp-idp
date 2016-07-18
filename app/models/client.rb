@@ -17,7 +17,7 @@ class Client < ApplicationRecord
   private
 
   def setup
-    self.identifier = SecureRandom.hex 16
-    self.secret     = SecureRandom.hex 32
+    self.identifier ||= SecureRandom.hex 16
+    self.secret     ||= SecureRandom.hex 32
   end
 end

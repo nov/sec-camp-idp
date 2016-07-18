@@ -12,6 +12,10 @@ class SessionsController < ApplicationController
     account = Account.authenticate!(params)
     authenticate account
     logged_in!
+  rescue => e
+    redirect_to new_session_url, flash: {
+      error: e.message
+    }
   end
 
   def destroy
