@@ -15,12 +15,14 @@ class AuthorizationsController < ApplicationController
         nonce: oauth_request.nonce
       )
       authorization.scopes << requested_scopes
-      case oauth_request.response_type
-      when :code
+      response_types = Array(oauth_request.response_type)
+      if response_types.include? :code
         oauth_response.code = authorization.code
-      when :token
+      end
+      if response_types.include? :token
         oauth_response.access_token = authorization.access_token(:via_implicit).to_bearer_token
-      when :id_token
+      end
+      if response_types.include? :id_token
         oauth_response.id_token = authorization.id_token.to_jwt
       end
       oauth_response.redirect_uri = @redirect_uri
