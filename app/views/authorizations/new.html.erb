@@ -1,6 +1,7 @@
 <header>
   <h2>Authorization Request by <%= @client.name %></h2>
 </header>
+<p>Hi <%= current_account.name %>, do you approve this client accesses these scopes?</p>
 <%= form_tag authorizations_path do %>
   <ul>
     <% requested_scopes.each do |scope| %>

@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  has_secure_password
+
   has_many :authorizations
 
   validates :identifier, presence: true, uniqueness: true
@@ -16,15 +18,15 @@ class Account < ApplicationRecord
     end
     if access_token.scopes.include? Scope::EMAIL
       userinfo.email = email
-      userinfo.email_verified = false
+      userinfo.email_verified = true
     end
     if access_token.scopes.include? Scope::ADDRESS
       userinfo.address = {
-        formatted: 'Shibuya, Tokyo, Japan'
+        formatted: address
       }
     end
     if access_token.scopes.include? Scope::PHONE
-      userinfo.phone_number = '+81 (3) 1234 5678'
+      userinfo.phone_number = phone
       userinfo.phone_number_verified = false
     end
     userinfo
@@ -39,9 +41,7 @@ class Account < ApplicationRecord
   class << self
     def authenticate!(params = {})
       account = find_or_initialize_by(email: params[:email])
-      account.name ||= params[:name]
-      account.save!
-      account
+      account.authenticate params[:password] or raise 'Authentication Failed'
     end
   end
 end

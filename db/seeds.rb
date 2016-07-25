@@ -22,3 +22,29 @@ Client.create [{
   name: 'RP (response_type=id_token)',
   redirect_uri: 'http://sec-rp-id-token.dev/callback'
 }]
+
+Account.create [{
+  name: 'Nov Victim',
+  email: 'nov@victim.example.com',
+  phone: '(+81) 0123456789',
+  address: 'Tokyo, Japan',
+  password: 'pass#nov'
+}, {
+  name: 'Michael Victim',
+  email: 'mike@victim.example.com',
+  phone: '(+1) 0123456789',
+  address: 'Shiattle, US',
+  password: 'pass#mike'
+}, {
+  name: 'Nat Attacker',
+  email: 'nat@attacker.example.com',
+  phone: '(+81) 9876543210',
+  address: 'Tokyo, Japan',
+  password: 'pass#nat'
+}, {
+  name: 'John Attacker',
+  email: 'john@attacker.example.com',
+  phone: '(+56) 9876543210',
+  address: 'Santiago, Chile',
+  password: 'pass#john'
+}]
