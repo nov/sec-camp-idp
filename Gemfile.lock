@@ -100,6 +100,7 @@ GEM
       validate_email
       validate_url
       webfinger (>= 1.0.1)
+    pg (0.18.4)
     pkg-config (1.1.7)
     puma (3.4.0)
     rack (2.0.1)
@@ -201,6 +202,7 @@ DEPENDENCIES
   jquery-rails
   json-jwt (>= 1.6.3)
   openid_connect
+  pg
   puma
   rack-oauth2 (>= 1.4.0)
   rails (>= 5.0.0, < 5.1)
