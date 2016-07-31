@@ -43,7 +43,7 @@ class IdToken < ApplicationRecord
 
     def config
       {
-        issuer: 'http://sec-idp.dev',
+        issuer: Rails.application.secrets.issuer,
         jwk_set: JSON::JWK::Set.new(public_jwk)
       }
     end
