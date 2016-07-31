@@ -18,7 +18,7 @@ when 'production'
     secret: 'b3ef8cc42fee95ffbee0a5278c725739be5f54cc52451e3105b96ed351c56811',
     name: 'RP (response_type=token+id_token)',
     redirect_uri: 'https://sec-camp-rp-implicit.herokuapp.com/callback'
-  }]}]
+  }]
 when 'development'
   Client.create [{
     identifier: '8d6c384015481a2e1e6151bcd283a64d',
