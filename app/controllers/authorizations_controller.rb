@@ -4,6 +4,7 @@ class AuthorizationsController < ApplicationController
   before_action :require_oauth_request
   before_action :require_client
   before_action :require_authentication
+  before_action :restrict_max_age, only: :new
 
   def new
   end
@@ -46,4 +47,15 @@ class AuthorizationsController < ApplicationController
     @requested_scopes ||= Scope.where(name: oauth_request.scope.split)
   end
   helper_method :requested_scopes
+
+  def restrict_max_age
+    acceptable_clock_skew = 3.seconds
+    if (
+      oauth_request.prompt == 'login' && !current_account.logged_in_within?(acceptable_clock_skew) ||
+      oauth_request.max_age.present?  && !current_account.logged_in_within?(acceptable_clock_skew + oauth_request.max_age.seconds)
+    )
+      unauthenticate!
+      require_authentication
+    end
+  end
 end

@@ -8,6 +8,10 @@ class Account < ApplicationRecord
   validates :name,       presence: true
   before_validation :setup, on: :create
 
+  def logged_in_within?(max_age)
+    last_logged_in_at > max_age.ago
+  end
+
   def to_response_object(access_token)
     userinfo = OpenIDConnect::ResponseObject::UserInfo.new
     if access_token.scopes.include? Scope::OPENID
