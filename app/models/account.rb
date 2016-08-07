@@ -36,6 +36,16 @@ class Account < ApplicationRecord
     userinfo
   end
 
+  def as_json(options = {})
+    {
+      id: identifier,
+      name: name,
+      email: email,
+      phone: phone,
+      address: address
+    }
+  end
+
   private
 
   def setup

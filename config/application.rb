@@ -14,7 +14,7 @@ module ConnectOp
     config.eager_load_paths += %W(#{config.root}/lib)
 
     config.middleware.use Rack::OAuth2::Server::Rails::Authorize
-    config.middleware.use Rack::OAuth2::Server::Resource::Bearer, 'OpenID Connect' do |req|
+    config.middleware.use Rack::OAuth2::Server::Resource::Bearer, 'SecCamp IdP' do |req|
       AccessToken.valid.find_by(token: req.access_token) ||
       req.invalid_token!
     end

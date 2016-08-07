@@ -9,6 +9,11 @@ Scope.create [
 case Rails.env
 when 'production'
   Client.create [{
+    identifier: 'localhost',
+    secret: 'localhost-secret',
+    name: 'localhost',
+    redirect_uri: 'http://localhost/callback'
+  }, {
     identifier: '1735ae91cb46163c0cb9cf8044888962',
     secret: '25b28b72d1c067e156de71e8b2f33b59d671c22553750483ccf9ece1828adf9f',
     name: 'RP (response_type=code)',
@@ -21,6 +26,11 @@ when 'production'
   }]
 when 'development'
   Client.create [{
+    identifier: 'localhost',
+    secret: 'localhost-secret',
+    name: 'localhost',
+    redirect_uri: 'http://localhost/callback'
+  }, {
     identifier: '8d6c384015481a2e1e6151bcd283a64d',
     secret: 'ad1d3c5c4948fb0b06952c5075e53ed46ba86d93c1d501633cc4fd24a99c229b',
     name: 'RP (response_type=code)',

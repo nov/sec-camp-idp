@@ -13,7 +13,11 @@ class TokenEndpoint
       when :authorization_code
         authorization = client.authorizations.valid.find_by(code: req.code) || req.invalid_grant!
         res.access_token = authorization.access_token.to_bearer_token
-        res.id_token = authorization.id_token.to_jwt if authorization.scopes.include?(Scope::OPENID)
+        if authorization.scopes.include? Scope::OPENID
+          id_token = authorization.id_token
+          id_token.access_token = res.access_token
+          res.id_token = id_token.to_jwt
+        end
       else
         req.unsupported_grant_type!
       end
