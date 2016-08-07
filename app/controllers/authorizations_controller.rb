@@ -25,10 +25,10 @@ class AuthorizationsController < ApplicationController
         oauth_response.access_token = @access_token = authorization.access_token(:via_implicit).to_bearer_token
       end
       if response_types.include? :id_token
-        id_token = authorization.id_token
-        id_token.code = @code
-        id_token.access_token = @access_token
-        oauth_response.id_token = authorization.id_token.to_jwt
+        oauth_response.id_token = authorization.id_token.to_jwt do |id_token|
+          id_token.code = @code
+          id_token.access_token = @access_token
+        end
       end
       oauth_response.redirect_uri = @redirect_uri
       oauth_response.approve!

@@ -5,8 +5,8 @@ class IdToken < ApplicationRecord
 
   delegate :account, :client, to: :authorization
 
-  def to_response_object
-    OpenIDConnect::ResponseObject::IdToken.new(
+  def to_response_object(&block)
+    response_object = OpenIDConnect::ResponseObject::IdToken.new(
       iss: self.class.config[:issuer],
       sub: account.identifier,
       aud: client.identifier,
@@ -15,10 +15,12 @@ class IdToken < ApplicationRecord
       iat: created_at.to_i,
       auth_time: account.last_logged_in_at.to_i
     )
+    yield response_object
+    response_object
   end
 
-  def to_jwt
-    to_response_object.to_jwt(self.class.private_jwk)
+  def to_jwt(&block)
+    to_response_object(&block).to_jwt(self.class.private_jwk)
   end
 
   private
