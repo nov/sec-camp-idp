@@ -5,7 +5,7 @@ class UserInfosController < ApplicationController
     userinfo = if current_token.scopes.include? Scope::OPENID
       current_token.account.to_response_object(current_token)
     else
-      current_token.account.as_json
+      current_token.account.as_json(scopes: current_token.scopes)
     end
     render json: userinfo
   end

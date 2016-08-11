@@ -37,13 +37,15 @@ class Account < ApplicationRecord
   end
 
   def as_json(options = {})
-    {
+    scopes = Array(options[:scopes])
+    userinfo = {
       id: identifier,
-      name: name,
-      email: email,
-      phone: phone,
-      address: address
+      name: name
     }
+    userinfo.merge! email: email if scopes.include? Scope::EMAIL
+    userinfo.merge! phone: phone if scopes.include? Scope::ADDRESS
+    userinfo.merge! address: address if scopes.include? Scope::ADDRESS
+    userinfo
   end
 
   private
