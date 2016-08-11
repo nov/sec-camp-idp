@@ -68,3 +68,5 @@ Account.create [{
   address: 'Santiago, Chile',
   password: 'pass#john'
 }]
+
+SigningKey.rotate!

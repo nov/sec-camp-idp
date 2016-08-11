@@ -7,7 +7,7 @@ class IdToken < ApplicationRecord
 
   def to_response_object(&block)
     response_object = OpenIDConnect::ResponseObject::IdToken.new(
-      iss: self.class.config[:issuer],
+      iss: Rails.application.secrets.issuer,
       sub: account.identifier,
       aud: client.identifier,
       nonce: nonce,
@@ -20,34 +20,12 @@ class IdToken < ApplicationRecord
   end
 
   def to_jwt(&block)
-    to_response_object(&block).to_jwt(self.class.private_jwk)
+    to_response_object(&block).to_jwt(SigningKey.current.private_jwk)
   end
 
   private
 
   def setup
     self.expires_at = 1.hours.from_now
-  end
-
-  class << self
-    def key_pair
-      # NOTE: usually static file.
-      @key_pair ||= OpenSSL::PKey::RSA.generate 2048
-    end
-
-    def private_jwk
-      JSON::JWK.new key_pair
-    end
-
-    def public_jwk
-      JSON::JWK.new key_pair.public_key
-    end
-
-    def config
-      {
-        issuer: Rails.application.secrets.issuer,
-        jwk_set: JSON::JWK::Set.new(public_jwk)
-      }
-    end
   end
 end

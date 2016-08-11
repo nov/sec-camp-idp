@@ -16,7 +16,7 @@ class DiscoveryController < ApplicationController
     jrd = {
       links: [{
         rel: OpenIDConnect::Discovery::Provider::Issuer::REL_VALUE,
-        href: IdToken.config[:issuer]
+        href: Rails.application.secrets.issuer
       }]
     }
     jrd[:subject] = params[:resource] if params[:resource].present?
@@ -25,7 +25,7 @@ class DiscoveryController < ApplicationController
 
   def openid_configuration
     config = OpenIDConnect::Discovery::Provider::Config::Response.new(
-      issuer: IdToken.config[:issuer],
+      issuer: Rails.application.secrets.issuer,
       authorization_endpoint: new_authorization_url,
       token_endpoint: tokens_url,
       userinfo_endpoint: user_info_url,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208063407) do
+ActiveRecord::Schema.define(version: 20160811111058) do
 
   create_table "access_tokens", force: :cascade do |t|
     t.integer  "authorization_id"
@@ -83,6 +83,13 @@ ActiveRecord::Schema.define(version: 20160208063407) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_scopes_on_name", unique: true
+  end
+
+  create_table "signing_keys", force: :cascade do |t|
+    t.text     "pem",                       null: false
+    t.boolean  "active",     default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
 end

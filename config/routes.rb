@@ -6,7 +6,9 @@ Rails.application.routes.draw do
 
   get '.well-known/:id', to: 'discovery#show'
   post 'tokens', to: proc { |env| TokenEndpoint.new.call(env) }
-  get 'jwks.json', as: :jwks, to: proc { |env| [200, {'Content-Type' => 'application/json'}, [IdToken.config[:jwk_set].to_json]] }
+  get 'jwks.json', as: :jwks, to: proc { |env|
+    [200, {'Content-Type' => 'application/json'}, [SigningKey.jwk_set.to_json]]
+  }
 
   root to: 'sessions#show'
 end
